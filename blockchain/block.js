@@ -21,7 +21,7 @@ class Block {
     }
 
     static mineBlock(lastBlock, data) {
-        const timestamp = Date.now();
+        const timestamp = Date.now().toString();
         const lastHash = lastBlock.hash;
         const hash = Block.hash(timestamp, lastHash, data);
 
