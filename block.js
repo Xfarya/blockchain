@@ -7,12 +7,11 @@ class Block {
     }
 
     toString() {
-        return 
-        `Block - Timestamp: ${this.timestamp.substring(0,10)}
+        return `Block - Timestamp: ${this.timestamp.substring(0,10)}
         Last Hash: ${this.lastHash.substring(0,10)}
         Hash: ${this.hash}
-        Data: ${this.data};
-        `
+        Data: ${this.data}
+        `;
     }
 }
 
