@@ -1,3 +1,4 @@
+const { on } = require('nodemon');
 const Websocket = require('ws');
 
 const P2P_PORT = process.env.P2P_PORT || 5001;
@@ -30,6 +31,17 @@ class P2pServer {
     connectSocket(socket) {
         this.sockets.push(socket);
         console.log('Socket connected');
+
+        this.messageHandler(socket);
+
+        socket.send(JSON.stringify(this.blockchain.chain));
+    }
+
+    messageHandler(socket) {
+        socket.on('message', message => {
+            const data = JSON.parse(message);
+            console.log('data', data);
+        });
     }
 }
 
