@@ -1,6 +1,6 @@
 const req = require('express/lib/request');
 const ChainUtil = require('../chain-util');
-const Transaction = req('./transaction');
+const Transaction = require('./transaction');
 
 const { INITIAL_BALANCE } = require('../config');
 
@@ -32,7 +32,7 @@ class Wallet {
         if(transaction) {
             transaction.update(this, recipient, amount);
         } else {
-            transaction = Transaction.new(this, recipient, amount);
+            transaction = Transaction.newTransaction(this, recipient, amount);
             transactionPool.updateOrAddTransaction(transaction);
         }
         return transaction;
