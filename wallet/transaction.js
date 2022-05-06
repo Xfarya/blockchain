@@ -1,3 +1,4 @@
+const { send } = require("express/lib/response");
 const ChainUtil = require("../chain-util")
 
 class Transaction {
@@ -5,6 +6,21 @@ class Transaction {
         this.id = ChainUtil.id();
         this.input = null;
         this.outputs = [];
+    }
+
+    update(senderWallet, recipient, amount) {
+        const senderOutput = this.outputs.find(output.address === senderWallet.publicKey);
+
+        if (amount > senderOutput.amount) {
+            console.log(`Amount: ${amount} exceeds balance.`);
+            return;
+        }
+
+        senderOutput.amount = senderOutput.amount - amount;
+        this.outputs.push({ amount, address: recipient });
+        Transaction.signTransaction(this, senderWallet);
+
+        return this;
     }
 
     static newTransaction(senderWallet, recipient, amount) {
