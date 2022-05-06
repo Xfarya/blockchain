@@ -6,8 +6,8 @@ class TransactionPool {
     updateOrAddTransaction(transaction) {
         let transactionWithId = this.transactions.find(t => t.id === transaction.id);
 
-        if (transactionsWithId) {
-            this.transaction[this.transactions.indexOf(transactionWithId)] = transaction;
+        if (transactionWithId) {
+            this.transactions[this.transactions.indexOf(transactionWithId)] = transaction;
         } else {
             this.transactions.push(transaction);
         }
