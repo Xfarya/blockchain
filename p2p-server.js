@@ -1,13 +1,19 @@
 const { on } = require('nodemon');
 const Websocket = require('ws');
 
+const MESSAGE_TYPES = {
+    chain: 'CHAIN',
+    transaction: 'TRANSACTION'
+};
+
 const P2P_PORT = process.env.P2P_PORT || 5001;
 
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 class P2pServer {
-    constructor(blockchain) {
+    constructor(blockchain, transactionPool) {
         this.blockchain = blockchain;
+        this.transactionPool = transactionPool;
         this.sockets = [];
     }
 
@@ -46,12 +52,27 @@ class P2pServer {
     }
 
     sendChain(socket) {
-        socket.send(JSON.stringify(this.blockchain.chain));
+        socket.send(JSON.stringify({ 
+            type: MESSAGE_TYPES.chain, 
+            chain: this.blockchain.chain 
+        }));
     }
+
     syncChains() {
         this.sockets.forEach(socket => {
             this.sendChain(socket);
         });
+    }
+
+    broadcastTransaction(transaction) {
+        this.sockets.forEach(socket => this.sendTransaction(socket, transaction));
+    } 
+
+    sendTransaction(socket, transaction) {
+        socket.send(JSON.stringify({ 
+            type: MESSAGE_TYPES.transaction, 
+            transaction
+        }));
     }
 }
 
