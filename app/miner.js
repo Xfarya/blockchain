@@ -1,4 +1,4 @@
-const { tokenChars } = require("ws/lib/validation");
+
 const Wallet = require("../wallet");
 const Transaction = require("../wallet/transaction");
 

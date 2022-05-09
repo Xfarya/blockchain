@@ -1,4 +1,4 @@
-// const { send } = require("express/lib/response");
+const { send } = require("express/lib/response");
 const ChainUtil = require("../chain-util")
 const { MINING_REWARD } = require('../config')
 
