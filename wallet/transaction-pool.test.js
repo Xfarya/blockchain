@@ -1,15 +1,18 @@
 const { intFromLE } = require("elliptic/lib/elliptic/utils");
 const Wallet = require(".");
+const Blockchain = require("../blockchain");
 const Transaction = require("./transaction");
 const TransactionPool = require("./transaction-pool");
 
+
 describe('TransactionPool', () => {
-    let tp, wallet, transaction;
+    let tp, bc, wallet, transaction;
 
     beforeEach(() => {
         tp = new TransactionPool();
         wallet = new Wallet();
-        transaction = wallet.createTransaction('r4nd-4dr355', 30, tp)
+        bc = new Blockchain();
+        transaction = wallet.createTransaction('r4nd-4dr355', 30, bc, tp)
     });
 
     it('adds a transaction to the pool', () => {
@@ -37,7 +40,7 @@ describe('TransactionPool', () => {
 
             for (let i = 0; i<6; i++) {
                 wallet = new Wallet();
-                transaction = wallet.createTransaction('r4nd-4dr355', 30, tp);
+                transaction = wallet.createTransaction('r4nd-4dr355', 30, bc, tp);
                 if (i%2==0) {
                     transaction.input.amount = 99999;
                 } else {
